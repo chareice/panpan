@@ -1,9 +1,9 @@
-import { Panpan } from "..";
+import { Pandb } from "..";
 
 test("Assert Get Model from Panpan", async () => {
-  const panpan = new Panpan("sqlite::memory:");
+  const pandb = new Pandb("sqlite::memory:");
 
-  await panpan.build((table) => {
+  await pandb.build((table) => {
     table({
       name: "user",
       fields(t) {
@@ -16,6 +16,7 @@ test("Assert Get Model from Panpan", async () => {
       name: "post",
       fields(t) {
         t.string("title");
+        t.bool("disabled").default(false);
         t.belongsTo("user");
       },
     });
@@ -29,17 +30,19 @@ test("Assert Get Model from Panpan", async () => {
     });
   });
 
-  const UserModel = panpan.getModel("user");
+  const UserModel = pandb.getModel("user");
 
   const chareice = await UserModel.create({
     name: "chareice",
     username: "chareice",
   });
 
-  const PostModel = panpan.getModel("post");
+  const PostModel = pandb.getModel("post");
 
   await PostModel.create({
     title: "Hello",
     user_id: chareice.get("id"),
   });
+
+  console.log({ PostModel: PostModel.rawAttributes });
 });

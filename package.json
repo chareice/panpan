@@ -1,11 +1,13 @@
 {
-  "name": "panpan",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "pandb",
+  "version": "0.0.2",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@types/inflection": "^1.5.28",
@@ -18,6 +20,8 @@
   },
   "dependencies": {
     "inflection": "^1.13.1",
+    "pg": "^8.6.0",
+    "pg-hstore": "^2.3.4",
     "sequelize": "^6.6.2"
   }
 }

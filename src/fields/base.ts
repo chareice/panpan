@@ -4,6 +4,7 @@ import {
   HasOneOptions,
   HasManyOptions,
   DataType,
+  ColumnOptions,
 } from "sequelize/types";
 import { Model } from "../model";
 
@@ -18,9 +19,21 @@ import { Model } from "../model";
 abstract class Field {
   protected name: string;
   protected allowNull = false;
+  protected defaultValue: unknown;
+  public _description: string | null = null;
 
   constructor(name: string) {
     this.name = name;
+  }
+
+  default(value: any) {
+    this.defaultValue = value;
+    return this;
+  }
+
+  description(description: string) {
+    this._description = description;
+    return this;
   }
 
   abstract fieldType(): DataType;
@@ -30,20 +43,22 @@ abstract class Field {
       [this.name]: {
         type: this.fieldType(),
         allowNull: this.allowNull,
+        defaultValue: this.defaultValue,
+        comment: this._description,
       },
     };
   }
 }
 
 abstract class Association {
-  protected target: string;
+  protected targetKey: string;
   protected sourceModel: Model;
 
   protected allowNull = false;
 
   constructor(target: string, sourceModel: Model) {
     this.sourceModel = sourceModel;
-    this.target = target;
+    this.targetKey = target;
   }
 
   /**
@@ -54,6 +69,11 @@ abstract class Association {
   abstract sequelizeMethodName(): "belongsTo" | "hasOne" | "belongsToMany";
 
   abstract sequelizeMethodArgs(): BelongsToManyOptions | BelongsToOptions;
+
+  nullable(_bool: boolean = true) {
+    this.allowNull = _bool;
+    return this;
+  }
 }
 
 export { Field, Association };

@@ -1,12 +1,16 @@
 import { Sequelize, Model as SequelizeModel } from "sequelize";
 import { Model, ModelOptions } from "./model";
 
-class Panpan {
+class Pandb {
   private sequelizeInstance: Sequelize;
   private modelsMap = new Map<string, Model>();
 
   constructor(databaseURI: string) {
     this.sequelizeInstance = new Sequelize(databaseURI);
+  }
+
+  getModelByName(name: string) {
+    return this.modelsMap.get(name);
   }
 
   getModel(modelName: string) {
@@ -79,4 +83,4 @@ class Panpan {
   // createModel(name: string, defineFunction) {}
 }
 
-export { Panpan };
+export { Pandb };

@@ -1,8 +1,13 @@
 import { Model } from "../model";
 import { BelongsTo } from "./belongsTo";
 import { BelongsToMany } from "./belongsToMany";
+import { BooleanField } from "./boolean";
+import { GeometryField } from "./geometry";
 import { IntField } from "./int";
 import { StringField } from "./string";
+import { TextField } from "./text";
+
+function FieldDecorator() {}
 
 class FieldBuilder {
   protected model: Model;
@@ -17,8 +22,26 @@ class FieldBuilder {
     return field;
   }
 
+  text(name: string) {
+    const field = new TextField(name);
+    this.model.addField(field);
+    return field;
+  }
+
   int(name: string) {
     const field = new IntField(name);
+    this.model.addField(field);
+    return field;
+  }
+
+  bool(name: string) {
+    const field = new BooleanField(name);
+    this.model.addField(field);
+    return field;
+  }
+
+  geometry(name: string) {
+    const field = new GeometryField(name);
     this.model.addField(field);
     return field;
   }

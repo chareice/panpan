@@ -4,7 +4,7 @@ import { Association } from "./base";
 
 class BelongsToMany extends Association {
   targetModelName(): string {
-    return inflection.singularize(this.target);
+    return inflection.singularize(this.targetKey);
   }
 
   sequelizeMethodName() {
